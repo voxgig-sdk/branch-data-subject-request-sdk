@@ -1,0 +1,26 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "support@branch.io"
+        name: "Branch Support"
+        url: "https://help.branch.io/using-branch/page/submit-a-ticket"
+      }
+      description: "The Branch Data Subject Request API supports our customers with two key components of data protection laws like the General Data Protection Regulation 2016/679 (GDPR) and the California Consumer Privacy Act (CCPA) - the right to access personal data and the right to request deletion of personal data (also known as the right be forgotten)."
+      servers: [
+        {
+          url: "https://api2.branch.io/v1"
+        }
+      ]
+      summary: "The Branch Data Subject Request API supports our customers with two key components of data protection laws like the General Data Protection Regulation 2016/679 (GDPR) and the California Consumer Privacy Act (CCPA) - the right to access per…"
+      termsOfService: "https://branch.io/policies/"
+      title: "Data Subject Request API"
+      version: "1.0.1"
+      website: "https://api2.branch.io"
+    }
+  }
+}
+
