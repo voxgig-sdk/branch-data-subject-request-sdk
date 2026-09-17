@@ -1,0 +1,314 @@
+{
+ "openapi": "3.0.0",
+ "info": {
+  "title": "Data Subject Request API",
+  "description": "The Branch Data Subject Request API supports our customers with two key components of data protection laws like the General Data Protection Regulation 2016/679 (GDPR) and the California Consumer Privacy Act (CCPA) - the right to access personal data and the right to request deletion of personal data (also known as the right be forgotten).",
+  "termsOfService": "https://branch.io/policies/",
+  "contact": {
+   "name": "Branch Support",
+   "url": "https://help.branch.io/using-branch/page/submit-a-ticket",
+   "email": "support@branch.io"
+  },
+  "version": "1.0.1"
+ },
+ "servers": [
+  {
+   "url": "https://api2.branch.io/v1"
+  }
+ ],
+ "paths": {
+  "/gdpr": {
+   "post": {
+    "tags": [
+     "Data Subject Request Branch API"
+    ],
+    "summary": "Access / Erasure",
+    "security": [
+     {
+      "appId": [],
+      "Access-Token": []
+     }
+    ],
+    "description": "This endpoint accesses any personal data associated with known given identities from Branch Metrics.",
+    "operationId": "accessErasure",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/access_request_body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_200_post_access"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Authentication Failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Authentication failed !\",\n        \"code\": 400\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not Found/Incorrect API URL",
+      "content": {
+       "application/xml": {
+        "schema": {},
+        "examples": {
+         "Result": {
+          "value": "<html>\n  <head><title>404 Not Found</title></head>\n  <body bgcolor=\"white\">\n  <center><h1>404 Not Found</h1></center>\n  <hr><center>openresty/1.13.6.2</center>\n  </body>\n</html>"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/gdpr/status": {
+   "post": {
+    "tags": [
+     "Data Subject Request Branch API"
+    ],
+    "summary": "Download / Status Request",
+    "security": [
+     {
+      "appId": [],
+      "Access-Token": []
+     }
+    ],
+    "description": "Gets the current status of the request for the given request_id generated from the Access/Erasure POST request.",
+    "operationId": "downloadStatusRequest",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/download_status_request_body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Ok",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_200_post_download_status_request"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Authentication Failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Authentication failed !\",\n        \"code\": 400\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "object",
+           "properties": {
+            "code": {
+             "type": "integer",
+             "example": "429"
+            },
+            "message": {
+             "type": "string",
+             "example": "Rate limit reached."
+            }
+           }
+          }
+         }
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "access_request_body": {
+    "type": "object",
+    "required": [
+     "subject_request_type"
+    ],
+    "properties": {
+     "subject_request_type": {
+      "type": "string",
+      "description": "The type of post request being sent. In this case \"access\"",
+      "example": "access",
+      "enum": [
+       "access",
+       "erasure"
+      ]
+     },
+     "subject_identities": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/subject_identities_array"
+      }
+     }
+    }
+   },
+   "inline_response_200_post_access": {
+    "type": "object",
+    "properties": {
+     "request_id": {
+      "type": "string",
+      "example": "XXXX-0000-xxxx",
+      "description": "The UUID generated for the request made. This can be used to check the status of the request at a later time."
+     },
+     "request_status": {
+      "type": "string",
+      "description": "This is the status of your request. It can be one of \n  \"SUCCESS\": The request has been fulfilled.\n  \"PENDING\": A correct request has been received and is currently in the queue\n  \"IN_PROGRESS\": The request is currently being acted on.\n",
+      "example": "SUCCESS"
+     }
+    }
+   },
+   "inline_response_400": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_400_error"
+     }
+    }
+   },
+   "subject_identities_array": {
+    "type": "object",
+    "required": [
+     "identity_type",
+     "identity_format"
+    ],
+    "properties": {
+     "identity_type": {
+      "type": "string",
+      "description": "The type of identity being sent. It can be \"BROWSER_ID\", \"DEVICE_ID\", \"USER_ID\", or \"DEVELOPER_ID\".",
+      "enum": [
+       "BROWSER_ID",
+       "DEVICE_ID",
+       "USER_ID",
+       "DEVELOPER_ID"
+      ],
+      "example": "DEVICE_ID"
+     },
+     "identity_value": {
+      "type": "string",
+      "description": "The value as per the identity_type, IDFA, Google_advertising_id, etc.",
+      "example": "XXXX-0000-xxxx"
+     },
+     "identity_format": {
+      "type": "string",
+      "description": "To be sent as \"raw\". Branch currently only supports \"raw\".",
+      "example": "raw"
+     }
+    }
+   },
+   "inline_response_400_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "Authentication failed !"
+     },
+     "code": {
+      "type": "integer",
+      "example": "400"
+     }
+    }
+   },
+   "download_status_request_body": {
+    "type": "object",
+    "required": [
+     "subject_request_type"
+    ],
+    "properties": {
+     "request_id": {
+      "type": "string",
+      "description": "The UUID generated for the request made. This can be used to check the status of the request at a later time.",
+      "example": "XXXX-0000-xxxx"
+     }
+    }
+   },
+   "inline_response_200_post_download_status_request": {
+    "type": "object",
+    "properties": {
+     "request_id": {
+      "type": "string",
+      "example": "XXXX-0000-xxxx",
+      "description": "The UUID generated for the request made. This can be used to check the status of the request at a later time."
+     },
+     "request_status": {
+      "type": "string",
+      "description": "This is the status of your request. It can be one of \n  \"SUCCESS\": The request has been fulfilled.\n  \"PENDING\": A correct request has been received and is currently in the queue\n  \"IN_PROGRESS\": The request is currently being acted on.\n",
+      "example": "SUCCESS"
+     },
+     "request_type": {
+      "type": "string",
+      "description": "Request type requested by the user",
+      "example": "ACCESS"
+     },
+     "export_url": {
+      "type": "string",
+      "description": "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested.",
+      "example": "https://branch-exports-usw2.s3.amazonaws.com/unique-csv-file-name-here.csv?Signature={SIGNATURE_HERE}%3D&AWSAccessKeyId={AWS_ACCESS_KEY_ID_HERE}&Expires={EXPIRATION_HERE}"
+     }
+    }
+   }
+  }
+ }
+}
