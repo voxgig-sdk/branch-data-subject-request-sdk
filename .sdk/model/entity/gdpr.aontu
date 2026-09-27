@@ -1,0 +1,66 @@
+# Entity: gdpr
+
+main: kit: entity: gdpr: {
+
+  alias: field: {}
+
+  fields: {
+    request_id: {
+      h: "Request Id"
+      n: "request_id"
+      r: false
+      sh: "The UUID generated for the request made."
+      t: "`$STRING`"
+    }
+    request_status: {
+      h: "Request Status"
+      n: "request_status"
+      r: false
+      sh: "This is the status of your request."
+      t: "`$STRING`"
+    }
+    subject_identities: {
+      h: "Subject Identities"
+      n: "subject_identities"
+      r: false
+      t: "`$ARRAY`"
+    }
+    subject_request_type: {
+      h: "Subject Request Type"
+      n: "subject_request_type"
+      r: true
+      sh: "The type of post request being sent."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "gdpr"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /gdpr"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/gdpr"
+          s: [
+            {
+              lit: "gdpr"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -165,23 +165,27 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "request_id",
-						"short": "The UUID generated for the request made.",
+						"title": "Request Id",
 						"type": "`$STRING`",
+						"short": "The UUID generated for the request made.",
 					},
 					map[string]any{
 						"name": "request_status",
-						"short": "This is the status of your request.",
+						"title": "Request Status",
 						"type": "`$STRING`",
+						"short": "This is the status of your request.",
 					},
 					map[string]any{
 						"name": "subject_identities",
+						"title": "Subject Identities",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "subject_request_type",
+						"title": "Subject Request Type",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "The type of post request being sent.",
-						"type": "`$STRING`",
 					},
 				},
 				"name": "gdpr",
@@ -191,7 +195,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/gdpr",
@@ -200,14 +203,16 @@ func MakeConfig() map[string]any {
 										"lit": "gdpr",
 									},
 								},
-								"select": map[string]any{},
+								"parts": []any{
+									"gdpr",
+								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"gdpr",
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -220,23 +225,27 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "export_url",
-						"short": "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested.",
+						"title": "Export Url",
 						"type": "`$STRING`",
+						"short": "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested.",
 					},
 					map[string]any{
 						"name": "request_id",
-						"short": "The UUID generated for the request made.",
+						"title": "Request Id",
 						"type": "`$STRING`",
+						"short": "The UUID generated for the request made.",
 					},
 					map[string]any{
 						"name": "request_status",
-						"short": "This is the status of your request.",
+						"title": "Request Status",
 						"type": "`$STRING`",
+						"short": "This is the status of your request.",
 					},
 					map[string]any{
 						"name": "request_type",
-						"short": "Request type requested by the user",
+						"title": "Request Type",
 						"type": "`$STRING`",
+						"short": "Request type requested by the user",
 					},
 				},
 				"name": "status",
@@ -246,7 +255,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/gdpr/status",
@@ -258,15 +266,17 @@ func MakeConfig() map[string]any {
 										"lit": "status",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"gdpr",
 									"status",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},

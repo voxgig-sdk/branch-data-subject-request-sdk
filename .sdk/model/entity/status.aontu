@@ -1,0 +1,70 @@
+# Entity: status
+
+main: kit: entity: status: {
+
+  alias: field: {}
+
+  fields: {
+    export_url: {
+      h: "Export Url"
+      n: "export_url"
+      r: false
+      sh: "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested."
+      t: "`$STRING`"
+    }
+    request_id: {
+      h: "Request Id"
+      n: "request_id"
+      r: false
+      sh: "The UUID generated for the request made."
+      t: "`$STRING`"
+    }
+    request_status: {
+      h: "Request Status"
+      n: "request_status"
+      r: false
+      sh: "This is the status of your request."
+      t: "`$STRING`"
+    }
+    request_type: {
+      h: "Request Type"
+      n: "request_type"
+      r: false
+      sh: "Request type requested by the user"
+      t: "`$STRING`"
+    }
+  }
+
+  name: "status"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /gdpr/status"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/gdpr/status"
+          s: [
+            {
+              lit: "gdpr"
+            }
+            {
+              lit: "status"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

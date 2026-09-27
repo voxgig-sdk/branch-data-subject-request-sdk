@@ -24,12 +24,6 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
 }
 
 
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS: Record<string, any[]> = {
   
 }
@@ -40,7 +34,6 @@ class Config {
   makeFeature(this: any, fn: string) {
     const fc = FEATURE_CLASS[fn]
     const fi = new fc()
-    // TODO: errors etc
     return fi
   }
 
@@ -224,23 +217,27 @@ class Config {
       "fields": [
         {
           "name": "request_id",
-          "short": "The UUID generated for the request made.",
-          "type": "`$STRING`"
+          "title": "Request Id",
+          "type": "`$STRING`",
+          "short": "The UUID generated for the request made."
         },
         {
           "name": "request_status",
-          "short": "This is the status of your request.",
-          "type": "`$STRING`"
+          "title": "Request Status",
+          "type": "`$STRING`",
+          "short": "This is the status of your request."
         },
         {
           "name": "subject_identities",
+          "title": "Subject Identities",
           "type": "`$ARRAY`"
         },
         {
           "name": "subject_request_type",
+          "title": "Subject Request Type",
+          "type": "`$STRING`",
           "req": true,
-          "short": "The type of post request being sent.",
-          "type": "`$STRING`"
+          "short": "The type of post request being sent."
         }
       ],
       "name": "gdpr",
@@ -250,7 +247,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/gdpr",
@@ -259,14 +255,16 @@ class Config {
                   "lit": "gdpr"
                 }
               ],
-              "select": {},
+              "parts": [
+                "gdpr"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "gdpr"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -279,23 +277,27 @@ class Config {
       "fields": [
         {
           "name": "export_url",
-          "short": "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested.",
-          "type": "`$STRING`"
+          "title": "Export Url",
+          "type": "`$STRING`",
+          "short": "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested."
         },
         {
           "name": "request_id",
-          "short": "The UUID generated for the request made.",
-          "type": "`$STRING`"
+          "title": "Request Id",
+          "type": "`$STRING`",
+          "short": "The UUID generated for the request made."
         },
         {
           "name": "request_status",
-          "short": "This is the status of your request.",
-          "type": "`$STRING`"
+          "title": "Request Status",
+          "type": "`$STRING`",
+          "short": "This is the status of your request."
         },
         {
           "name": "request_type",
-          "short": "Request type requested by the user",
-          "type": "`$STRING`"
+          "title": "Request Type",
+          "type": "`$STRING`",
+          "short": "Request type requested by the user"
         }
       ],
       "name": "status",
@@ -305,7 +307,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/gdpr/status",
@@ -317,15 +318,17 @@ class Config {
                   "lit": "status"
                 }
               ],
-              "select": {},
+              "parts": [
+                "gdpr",
+                "status"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "gdpr",
-                "status"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }

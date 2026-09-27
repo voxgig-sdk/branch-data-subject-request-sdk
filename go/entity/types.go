@@ -1,7 +1,7 @@
 // Typed models for the BranchDataSubjectRequest SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,10 +14,6 @@ import (
 
 // Gdpr is the typed data model for the gdpr entity.
 type Gdpr struct {
-	RequestId *string `json:"request_id,omitempty"`
-	RequestStatus *string `json:"request_status,omitempty"`
-	SubjectIdentities *[]any `json:"subject_identities,omitempty"`
-	SubjectRequestType string `json:"subject_request_type"`
 }
 
 // GdprCreateData is the typed request payload for Gdpr.CreateTyped.
@@ -30,10 +26,6 @@ type GdprCreateData struct {
 
 // Status is the typed data model for the status entity.
 type Status struct {
-	ExportUrl *string `json:"export_url,omitempty"`
-	RequestId *string `json:"request_id,omitempty"`
-	RequestStatus *string `json:"request_status,omitempty"`
-	RequestType *string `json:"request_type,omitempty"`
 }
 
 // StatusCreateData is the typed request payload for Status.CreateTyped.

@@ -1,5 +1,5 @@
 {
-  "name": "@voxgig-sdk/branch-data-subject-request-js",
+  "name": "@voxgig-sdk/branch-data-subject-request-sdk-js",
   "version": "0.0.1",
   "description": "Unofficial generated JavaScript SDK for the Data Subject Request public API. Not affiliated with or endorsed by the upstream API provider.",
   "keywords": [
@@ -21,7 +21,8 @@
   "main": "src/BranchDataSubjectRequestSDK.js",
   "type": "commonjs",
   "files": [
-    "src"
+    "src",
+    "README.md"
   ],
   "scripts": {
     "test": "node --test 'test/**/*.test.js'",

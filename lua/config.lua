@@ -161,23 +161,27 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "request_id",
-            ["short"] = "The UUID generated for the request made.",
+            ["title"] = "Request Id",
             ["type"] = "`$STRING`",
+            ["short"] = "The UUID generated for the request made.",
           },
           {
             ["name"] = "request_status",
-            ["short"] = "This is the status of your request.",
+            ["title"] = "Request Status",
             ["type"] = "`$STRING`",
+            ["short"] = "This is the status of your request.",
           },
           {
             ["name"] = "subject_identities",
+            ["title"] = "Subject Identities",
             ["type"] = "`$ARRAY`",
           },
           {
             ["name"] = "subject_request_type",
+            ["title"] = "Subject Request Type",
+            ["type"] = "`$STRING`",
             ["req"] = true,
             ["short"] = "The type of post request being sent.",
-            ["type"] = "`$STRING`",
           },
         },
         ["name"] = "gdpr",
@@ -187,7 +191,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/gdpr",
@@ -196,14 +199,16 @@ local function make_config()
                     ["lit"] = "gdpr",
                   },
                 },
-                ["select"] = {},
+                ["parts"] = {
+                  "gdpr",
+                },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "gdpr",
-                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -216,23 +221,27 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "export_url",
-            ["short"] = "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested.",
+            ["title"] = "Export Url",
             ["type"] = "`$STRING`",
+            ["short"] = "The pre-assigned s3 URL link to download the CSV file containing the identity objects requested.",
           },
           {
             ["name"] = "request_id",
-            ["short"] = "The UUID generated for the request made.",
+            ["title"] = "Request Id",
             ["type"] = "`$STRING`",
+            ["short"] = "The UUID generated for the request made.",
           },
           {
             ["name"] = "request_status",
-            ["short"] = "This is the status of your request.",
+            ["title"] = "Request Status",
             ["type"] = "`$STRING`",
+            ["short"] = "This is the status of your request.",
           },
           {
             ["name"] = "request_type",
-            ["short"] = "Request type requested by the user",
+            ["title"] = "Request Type",
             ["type"] = "`$STRING`",
+            ["short"] = "Request type requested by the user",
           },
         },
         ["name"] = "status",
@@ -242,7 +251,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/gdpr/status",
@@ -254,15 +262,17 @@ local function make_config()
                     ["lit"] = "status",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "gdpr",
                   "status",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
